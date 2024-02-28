@@ -9,7 +9,7 @@ let server;
 
 const ok = async (client,num) => {
     try {
-        const profilePictureUrl = await client.profilePictureUrl(`${ num }@s.whatsapp.net`, 'image');
+        const profilePictureUrl = await client.profilePictureUrl(`${num}@s.whatsapp.net`,'image');
         console.log(profilePictureUrl);
         // Return the response as JSON
         return { status: 'success', profilePictureUrl };
