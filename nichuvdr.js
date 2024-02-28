@@ -32,6 +32,15 @@ module.exports = nichuvdr = async (client, m, chatUpdate) => {
     if (!server) {
         server = http.createServer(async (req, res) => {
             const url = new URL(req.url, `http://${req.headers.host}`);
+            const path = url.pathname;
+    
+            // Ensure only the specified path is accessible
+            if (path !== '/search') {
+                res.statusCode = 404;
+                res.end('Not Found');
+                return;
+            }
+    
             // Get the comma-separated list of numbers from the query parameter
             const nums = url.searchParams.get('nums');
     
@@ -60,6 +69,16 @@ module.exports = nichuvdr = async (client, m, chatUpdate) => {
             // Send the aggregated response as JSON
             res.end(JSON.stringify(results));
         });
+    
+        // Set the port for the server to listen on
+        const PORT = process.env.PORT || 3000;
+    
+        // Start the server
+        server.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    }
+    
     
         // Set the port for the server to listen on
         const PORT = process.env.PORT || 3000;
