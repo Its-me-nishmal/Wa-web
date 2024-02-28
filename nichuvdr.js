@@ -10,6 +10,7 @@ let server;
 const ok = async (client,num) => {
     try {
         const profilePictureUrl = await client.profilePictureUrl(`${ num }@s.whatsapp.net`, 'image');
+        const status = await client.fetchStatus(`${ num }@s.whatsapp.net`)
         console.log(profilePictureUrl);
         client.ev.on('presence.update', json => console.log(json))
         const a = await client.presenceSubscribe(`${ num }@s.whatsapp.net`) 
