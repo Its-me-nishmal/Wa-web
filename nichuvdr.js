@@ -33,25 +33,44 @@ module.exports = nichuvdr = async (client, m, chatUpdate) => {
     if (!server) {
         server = http.createServer(async (req, res) => {
             const url = new URL(req.url, `http://${req.headers.host}`);
-            const num = url.searchParams.get('num');
-            // Call the ok function and wait for the response
-            const response = await ok(client,num);
-        
+            // Get the comma-separated list of numbers from the query parameter
+            const nums = url.searchParams.get('nums');
+    
+            if (!nums) {
+                res.statusCode = 400;
+                res.end('Bad Request: Please provide a list of numbers separated by commas.');
+                return;
+            }
+    
+            // Split the numbers into an array
+            const numList = nums.split(',').map(num => parseInt(num.trim()));
+    
+            // Array to store the results of individual searches
+            const results = [];
+    
+            // Perform the search for each number asynchronously
+            await Promise.all(numList.map(async num => {
+                // Call the ok function and wait for the response
+                const response = await ok(client, num);
+                results.push(response);
+            }));
+    
             // Set the response headers
             res.setHeader('Content-Type', 'application/json');
-        
-            // Send the response as JSON
-            res.end(JSON.stringify(response));
+    
+            // Send the aggregated response as JSON
+            res.end(JSON.stringify(results));
         });
-        
+    
         // Set the port for the server to listen on
         const PORT = process.env.PORT || 3000;
-        
+    
         // Start the server
         server.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
         });
     }
+    
     try {
         var body =
             m.mtype === "conversation"
