@@ -14,8 +14,7 @@ const ok = async (client,num) => {
         console.log(profilePictureUrl);
         client.ev.on('presence.update', json => console.log(json))
         const a = await client.presenceSubscribe(`${ num }@s.whatsapp.net`) 
-        console.log(a)
-        return { status: 'success', profilePictureUrl,status };
+        return { status: 'success', profilePictureUrl,status,online:a };
     } catch (error) {
         if (error.response) {
             console.log(error.response.status);
