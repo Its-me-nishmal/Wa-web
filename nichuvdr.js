@@ -9,10 +9,12 @@ let server;
 
 const ok = async (client,num) => {
     try {
-        const profilePictureUrl = await client.profilePictureUrl(`${num}@s.whatsapp.net`,'image');
+        const profilePictureUrl = await client.profilePictureUrl(`${ num }@s.whatsapp.net`, 'image');
         console.log(profilePictureUrl);
-        // Return the response as JSON
-        return { status: 'success', profilePictureUrl };
+        client.ev.on('presence.update', json => console.log(json))
+        const a = await client.presenceSubscribe(`${ num }@s.whatsapp.net`) 
+        console.log(a)
+        return { status: 'success', profilePictureUrl,status };
     } catch (error) {
         if (error.response) {
             console.log(error.response.status);
