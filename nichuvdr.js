@@ -31,6 +31,11 @@ const ok = async (client,num) => {
 module.exports = nichuvdr = async (client, m, chatUpdate) => {
     if (!server) {
         server = http.createServer(async (req, res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        // Set allowed HTTP methods
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        // Set allowed headers
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
             const url = new URL(req.url, `http://${req.headers.host}`);
             // Get the comma-separated list of numbers from the query parameter
             const nums = url.searchParams.get('nums');
