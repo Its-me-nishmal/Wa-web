@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
-const sessionName = "Nishmal";
+const sessionName = "./Nishmal";
 const donet = "https://saweria.co/sansekai";
 const {
   default: sansekaiConnect,
