@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const sessionName = "Nishmal";
 const donet = "https://saweria.co/sansekai";
+const path = require('path')
 const {
   default: sansekaiConnect,
   useMultiFileAuthState,
@@ -126,7 +127,7 @@ function smsg(conn, m, store) {
 }
 
 async function startHisoka() {
-  const { state, saveCreds } = await useMultiFileAuthState(`${sessionName ? sessionName : "session"}`);
+  const { state, saveCreds } = await useMultiFileAuthState(path.resolve(__dirname, sessionName ? sessionName : "session"));
   const { version, isLatest } = await fetchLatestWaWebVersion().catch(() => fetchLatestBaileysVersion());
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   console.log(
