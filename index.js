@@ -1,3 +1,6 @@
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 5000;
 const sessionName = "Nishmal";
 const donet = "https://saweria.co/sansekai";
 const {
@@ -331,4 +334,13 @@ fs.watchFile(file, () => {
   console.log(chalk.redBright(`Update ${__filename}`));
   delete require.cache[file];
   require(file);
+});
+
+app.get('/keep-alive', (req, res) => {
+  res.send('Bot is alive!');
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
